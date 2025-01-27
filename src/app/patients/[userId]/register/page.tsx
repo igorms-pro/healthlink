@@ -4,9 +4,10 @@ import Link from "next/link";
 import RegisterForm from "@/components/forms/RegisterForm";
 import { getUser } from "@/lib/actions/patient.actions";
 
-const Regiter = async ({ params: { userdId } }: SearchParamProps) => {
-  const user = await getUser(userdId);
+const Register = async ({ params: { userId } }: SearchParamProps) => {
+  const user = await getUser(userId);
 
+  console.log({user})
   return (
     <div className=" flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
@@ -35,4 +36,4 @@ const Regiter = async ({ params: { userdId } }: SearchParamProps) => {
   );
 };
 
-export default Regiter;
+export default Register;
