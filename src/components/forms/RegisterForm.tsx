@@ -12,18 +12,10 @@ import { useState } from "react";
 import { UserFormValidation } from "@/lib/validations";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
+import { FormFieldType } from "./PatientForm";
 
-export enum FormFieldType {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
 
-const PatientForm = () => {
+const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { push } = useRouter();
@@ -75,25 +67,10 @@ const PatientForm = () => {
           iconAlt="user"
           control={form.control}
         />
-        <CustomFormField
-          fieldType={FormFieldType.INPUT}
-          name="email"
-          label="Email"
-          placeholder="sanji@healthlink.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-          control={form.control}
-        />
-        <CustomFormField
-          fieldType={FormFieldType.PHONE_INPUT}
-          name="phone"
-          label="Phone number"
-          placeholder="00336987654"
-          control={form.control}
-        />
+  
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
   );
 };
-export default PatientForm;
+export default RegisterForm;
