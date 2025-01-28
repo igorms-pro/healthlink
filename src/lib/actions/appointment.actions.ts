@@ -9,19 +9,32 @@ import {
 import { parseStringify } from "../utils";
 
 export const createAppointment = async (
-    appointment: CreateAppointmentParams
-  ) => {
-    try {
-      const newAppointment = await databases.createDocument(
-        DATABASE_ID!,
-        APPOINTMENT_COLLECTION_ID!,
-        ID.unique(),
-        appointment
-      );
-  
-      //revalidatePath("/admin");
-      return parseStringify(newAppointment);
-    } catch (error) {
-      console.error("createAppointment error:", error);
-    }
-  };
+  appointment: CreateAppointmentParams
+) => {
+  try {
+    const newAppointment = await databases.createDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      ID.unique(),
+      appointment
+    );
+
+    //revalidatePath("/admin");
+    return parseStringify(newAppointment);
+  } catch (error) {
+    console.error("createAppointment error:", error);
+  }
+};
+
+export const getAppointment = async (appointmentId: string) => {
+  try {
+    const appointment = await databases.getDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+    return parseStringify(appointment);
+  } catch (error) {
+    console.error("getAppointment error:", error);
+  }
+};
