@@ -56,7 +56,7 @@ const RequestSuccess = async ({
             />
             <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2">ß
             <Image
               src="/assets/icons/calendar.svg"
               height={24}
