@@ -87,7 +87,6 @@ const RegisterForm = ({ user }: { user: User }) => {
 
       const newPatient = await registerPatient(patient);
 
-      console.log("newpatient", newPatient);
       if (newPatient) {
         push(`/patients/${user.$id}/new-appointment`);
       }
@@ -147,7 +146,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             fieldType={FormFieldType.DATE_PICKER}
             name="birthDate"
             label="Date of birth"
-            placeholder="sanji@healthlink.com"
             control={form.control}
           />
           <CustomFormField
