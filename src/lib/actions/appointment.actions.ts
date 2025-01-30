@@ -7,7 +7,8 @@ import {
   databases,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
-import { Appointment } from "@/types/appwrite.types";
+import { revalidatePath } from "next/cache";
+import { Appointment } from "../../../types/appwrite.types";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -48,7 +49,7 @@ export const getRecentAppointmentList = async () => {
       [Query.orderDesc("$createdAt")]
     );
     const initialCounts = {
-      sheduledCount: 0,
+      scheduledCount: 0,
       pendingCount: 0,
       cancelledCount: 0,
     };
@@ -71,6 +72,7 @@ export const getRecentAppointmentList = async () => {
       initialCounts
     );
 
+    console.log({counts})
     const data = {
       totalCount: appointments.total,
       ...counts,
@@ -80,5 +82,29 @@ export const getRecentAppointmentList = async () => {
     return parseStringify(data);
   } catch (error) {
     console.error("getRecentAppointmentList error", error);
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {
+  try {
+    const updatedAppointment = await databases.updateDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      appointment
+    );
+
+    if (!updatedAppointment) throw new Error("Appointment not found");
+
+    //TODO sms 
+
+    revalidatePath('/admin')
+  } catch (error) {
+    console.error("updateAppointment error", error);
   }
 };
