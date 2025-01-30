@@ -32,7 +32,7 @@ const AppointmentModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          variant="gost"
+          variant="ghost"
           className={`capitalize  ${type === "schedule" && "text-green-500"}`}
         >
           {type}
