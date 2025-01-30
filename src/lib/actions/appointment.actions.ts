@@ -5,8 +5,9 @@ import {
   APPOINTMENT_COLLECTION_ID,
   DATABASE_ID,
   databases,
+  messaging,
 } from "../appwrite.config";
-import { parseStringify } from "../utils";
+import { formatDateTime, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { Appointment } from "../../../types/appwrite.types";
 
@@ -72,7 +73,7 @@ export const getRecentAppointmentList = async () => {
       initialCounts
     );
 
-    console.log({counts})
+    console.log({ counts });
     const data = {
       totalCount: appointments.total,
       ...counts,
@@ -90,6 +91,7 @@ export const updateAppointment = async ({
   userId,
   appointment,
   type,
+  timeZone
 }: UpdateAppointmentParams) => {
   try {
     const updatedAppointment = await databases.updateDocument(
@@ -101,10 +103,36 @@ export const updateAppointment = async ({
 
     if (!updatedAppointment) throw new Error("Appointment not found");
 
-    //TODO sms 
+    //TODO sms
 
-    revalidatePath('/admin')
+    const smsMessage = `Greetings from Health Link. ${
+      type === "schedule"
+        ? `Your appointment is confirmed for ${
+            formatDateTime(appointment.schedule!, timeZone).dateTime
+          } with Dr. ${appointment.primaryPhysician}`
+        : `We regret to inform that your appointment for ${
+            formatDateTime(appointment.schedule!, timeZone).dateTime
+          } is cancelled. Reason:  ${appointment.cancellationReason}`
+    }.`;
+    sendSMSNotification(userId, smsMessage);
+
+    revalidatePath("/admin");
   } catch (error) {
     console.error("updateAppointment error", error);
+  }
+};
+
+export const sendSMSNotification = async (userId: string, content: string) => {
+  try {
+    const message = await messaging.createSms(
+      ID.unique(),
+      content,
+      [],
+      [userId]
+    );
+
+    return parseStringify(message);
+  } catch (error) {
+    console.error("sendSMSNotification error", error);
   }
 };

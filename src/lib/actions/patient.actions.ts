@@ -51,7 +51,6 @@ export const registerPatient = async ({
   ...patient
 }: RegisterUserParams) => {
   try {
-    console.log({ patient });
     let file;
     if (identificationDocument) {
       const inputFile = InputFile.fromBuffer(
