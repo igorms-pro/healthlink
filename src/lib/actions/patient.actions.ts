@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { ID, Query } from "node-appwrite";
@@ -25,7 +26,9 @@ export const createUser = async (user: CreateUserParams) => {
     );
 
     return parseStringify(newuser);
-  } catch (error: any) {
+  } catch (e: any) {
+    const error = e as ApiError;
+
     if (error && error?.code === 409) {
       const existingUser = await users.list([
         Query.equal("email", [user.email]),

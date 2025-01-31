@@ -13,7 +13,7 @@ type FileUploaderProps = {
 const FileUploader = ({ files, onChange }: FileUploaderProps) => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     onChange(acceptedFiles);
-  }, []);
+  }, [onChange]);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
@@ -30,7 +30,6 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
         />
       ) : (
         <>
-          {" "}
           <Image
             src="/assets/icons/upload.svg"
             width={40}

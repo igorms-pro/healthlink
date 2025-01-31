@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
 
@@ -5,13 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { Doctors } from "@/constants";
 import { SelectItem } from "../ui/select";
@@ -22,7 +21,6 @@ import {
 } from "@/lib/actions/appointment.actions";
 import { getAppointmentSchema } from "@/lib/validations";
 import { Appointment } from "../../../types/appwrite.types";
-import { scheduler } from "timers/promises";
 
 interface AppointmentFormProps {
   userId: string;
